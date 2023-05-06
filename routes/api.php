@@ -3,6 +3,12 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\TrackerController;
+use App\Http\Controllers\PlanerController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -15,8 +21,12 @@ use App\Models\User;
 */
 
 Route::middleware(['auth:sanctum'])->group(function () {
-    //...
+      Route::get('/users/auth', AuthController::class);
       Route::get('/users/{id}', function ($id) {
         return User::findOrFail($id);
     });
+    Route::apiResource('categories', CategoryController::class);
+    Route::apiResource('trackers', TrackerController::class);
+    Route::apiResource('groups', TrackerController::class);
+    Route::apiResource('planers', PlanerController::class);
   });

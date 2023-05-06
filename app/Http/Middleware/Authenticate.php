@@ -15,5 +15,6 @@ class Authenticate extends Middleware
         if (! $request->expectsJson()) {
             return url(env('SPA_URL') . '/login');
         }
+        return 'blad';
     }
 }
