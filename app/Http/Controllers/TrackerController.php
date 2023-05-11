@@ -14,7 +14,7 @@ class TrackerController extends Controller
     public function index()
     {
         // return Tracker::with('categories.groupTypes')->get();
-        $tracker = Tracker::with('category', 'groupType')->get();
+        $tracker = Tracker::with('category', 'groupType')->whereUserId(Auth::user()->id)->get();
 
         return response()->json($tracker);
     }
@@ -26,7 +26,7 @@ class TrackerController extends Controller
     public function store(Request $request)
     {
         $request['user_id'] = Auth::user()->id;
-        $tracker = Tracker::create($request->all());        
+        $tracker = Tracker::create($request->all())->whereUserId(Auth::user()->id);        
         return response()->json($tracker, 201);
     }
 
@@ -35,7 +35,7 @@ class TrackerController extends Controller
      */
     public function show(Tracker $tracker)
     {
-        return Tracker::find($tracker);
+        return Tracker::find($tracker)->whereUserId(Auth::user()->id);
     }
 
     /**
@@ -52,7 +52,7 @@ class TrackerController extends Controller
      */
     public function destroy(Tracker $tracker)
     {
-        $tracker->delete();        
+        $tracker::whereUserId(Auth::user()->id)->where('id', $tracker->id)->delete();        
         return response()->json(null, 204);
     }
 }

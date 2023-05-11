@@ -13,7 +13,7 @@ class PlanerController extends Controller
      */
     public function index()
     {
-        $planer = Planer::with('category', 'groupType')->get();
+        $planer = Planer::with('category', 'groupType')->whereUserId(Auth::user()->id)->get();
         return response()->json($planer);
     }
 
@@ -24,7 +24,7 @@ class PlanerController extends Controller
     public function store(Request $request)
     {
         $request['user_id'] = Auth::user()->id;
-        $planer = Planer::create($request->all());        
+        $planer = Planer::create($request->all())->whereUserId(Auth::user()->id);        
         return response()->json($planer, 201);
     }
 
@@ -33,7 +33,7 @@ class PlanerController extends Controller
      */
     public function show(Planer $planer)
     {
-        return Planer::find($planer);
+        return Planer::find($planer)->whereUserId(Auth::user()->id);
     }
 
 
@@ -51,7 +51,7 @@ class PlanerController extends Controller
      */
     public function destroy(Planer $planer)
     {
-        $planer->delete();
+        $planer::whereUserId(Auth::user()->id)->where('id', $planer->id)->delete(); 
         return response()->json(null, 204);
     }
 }

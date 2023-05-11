@@ -8,6 +8,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\TrackerController;
 use App\Http\Controllers\PlanerController;
+use App\Http\Controllers\HarmonogramController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +31,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::apiResource('trackers', TrackerController::class);
     Route::apiResource('groups', TrackerController::class);
     Route::apiResource('planers', PlanerController::class);
+    Route::apiResource('harmonograms', HarmonogramController::class);
   });

@@ -13,7 +13,7 @@ class CategoryController extends Controller
      */
     public function index()
     {
-        return Category::all();
+        return Category::whereUserId(Auth::user()->id)->get();
     }
 
     /**
@@ -22,7 +22,7 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request['user_id'] = Auth::user()->id;
-        $category = Category::create($request->all());        
+        $category = Category::create($request->all())->whereUserId(Auth::user()->id);        
         return response()->json($category, 201);
     }
 
@@ -31,7 +31,7 @@ class CategoryController extends Controller
      */
     public function show(Category $category)
     {
-        return Category::find($category);
+        return Category::find($category)->whereUserId(Auth::user()->id);
     }
 
 
@@ -49,7 +49,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        $category->delete();        
+        $category::whereUserId(Auth::user()->id)->where('id', $category->id)->delete();        
         return response()->json(null, 204);
     }
 }
